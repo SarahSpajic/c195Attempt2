@@ -194,6 +194,7 @@ public class CustomerController implements Initializable {
     @FXML
 
     private void updateCustomerAction(ActionEvent event) throws IOException {
+        int customerId = selectedCustomer.getCustomerID();
         String name = nameField.getText();
         String address = addressField.getText();
         String postalCode = postalCodeField.getText();

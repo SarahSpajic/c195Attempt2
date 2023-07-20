@@ -39,6 +39,7 @@
                   <RowConstraints />
                   <RowConstraints />
                   <RowConstraints />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" />
                </rowConstraints>
                <children>
                   <Label text="Title" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -52,12 +53,14 @@
                   <Label prefHeight="17.0" prefWidth="84.0" text="Customer  ID" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                   <ComboBox fx:id="customerChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
                   <Label prefHeight="17.0" prefWidth="116.0" text="Appointment ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label prefHeight="17.0" prefWidth="84.0" text="User ID" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                  <ComboBox fx:id="userChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
                </children>
       
                   </GridPane>
          </children></AnchorPane>
-      <Button layoutX="157.0" layoutY="421.0" mnemonicParsing="false" onAction="#addAppointment" prefHeight="53.0" prefWidth="206.0" text="Create Appointment" />
-      <Button layoutX="157.0" layoutY="621.0" mnemonicParsing="false"  prefHeight="53.0" prefWidth="206.0" onAction="#returnToHomeScreen" text="Return to Dashboard" />
+      <Button layoutX="157.0" layoutY="499.0" mnemonicParsing="false" onAction="#addAppointment" prefHeight="53.0" prefWidth="206.0" text="Create Appointment" />
+      <Button layoutX="157.0" layoutY="621.0" mnemonicParsing="false" onAction="#returnToHomeScreen" prefHeight="53.0" prefWidth="206.0" text="Return to Dashboard" />
       <DatePicker fx:id="addAppointmentStartDate" layoutX="64.0" layoutY="45.0" />
       <ComboBox fx:id="addAppointmentEndTime" layoutX="344.0" layoutY="78.0" />
       <DatePicker fx:id="addAppointmentEndDate" layoutX="276.0" layoutY="45.0" />

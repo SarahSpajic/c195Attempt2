@@ -136,7 +136,7 @@ public class AppointmentDaoImpl {
             LocalDateTime start = rs.getObject("start", LocalDateTime.class);
             LocalDateTime end = rs.getObject("end", LocalDateTime.class);
 
-            if ((newStart.isAfter(start) && newStart.isBefore(end))
+            if ((start.isBefore(newEnd) && newStart.isBefore(end))
                     || (newEnd.isAfter(start) && newEnd.isBefore(end))
                     || (newStart.isBefore(start) && newEnd.isAfter(end))) {
                 System.out.println("There is an overlap with an existing appointment.");

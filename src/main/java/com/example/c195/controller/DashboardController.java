@@ -236,8 +236,7 @@ public class DashboardController implements Initializable {
 
             contactIdColumn = new TableColumn<>("Contact ID");
             contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactId"));
-            weekAppointmentTable.getColumns().add(contactIdColumn);
-            monthAppointmentTable.getColumns().add(contactIdColumn);
+
 
             checkForUpcomingAppointments();
 
@@ -465,9 +464,25 @@ public class DashboardController implements Initializable {
         } else if (monthSelectedAppointment != null) {
             appointmentId = monthSelectedAppointment.getAppointmentId();
             appointmentType = monthSelectedAppointment.getType();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(String.format("Month Appointment '%s' with ID %d will be deleted ", appointmentType, appointmentId));
+            alert.setContentText("Do you want to continue?.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                AppointmentDaoImpl.deleteAppointment(connection, appointmentId);
+            }
         } else if (weekSelectedAppointment != null) {
             appointmentId = weekSelectedAppointment.getAppointmentId();
             appointmentType = weekSelectedAppointment.getType();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(String.format("Week Appointment '%s' with ID %d will be deleted ", appointmentType, appointmentId));
+            alert.setContentText("Do you want to continue?.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                AppointmentDaoImpl.deleteAppointment(connection, appointmentId);
+            }
         }
 
         if (appointmentId == -1) {
@@ -481,9 +496,7 @@ public class DashboardController implements Initializable {
 
         try {
             connection.setAutoCommit(false);
-
             AppointmentDaoImpl.deleteAppointment(connection, appointmentId);
-
             connection.commit();
         } catch (SQLException e) {
             try {

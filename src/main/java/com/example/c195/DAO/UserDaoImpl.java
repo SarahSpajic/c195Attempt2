@@ -1,7 +1,11 @@
 package com.example.c195.DAO;
 
+import com.example.c195.model.Contact;
 import com.example.c195.model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,4 +44,24 @@ public class UserDaoImpl extends User {
             return true;
         }
     }
+
+
+    public static ObservableList<User> getAllUsers(Connection connection) throws Exception {
+        ObservableList<User> usersObservableList = FXCollections.observableArrayList();
+        String sql = "SELECT * from users";
+        PreparedStatement ps = DBConnection.makeConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int userId = rs.getInt("user_id");
+            String userName = rs.getString("user_name");
+            String password = rs.getString("password");
+            User user = new User(userId, userName, password);
+            usersObservableList.add(user);
+            System.out.println(userId);
+        }
+
+        return usersObservableList;
+    }
+
+
 }

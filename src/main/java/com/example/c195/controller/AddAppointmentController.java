@@ -1,12 +1,10 @@
 package com.example.c195.controller;
 
-import com.example.c195.DAO.AppointmentDaoImpl;
-import com.example.c195.DAO.ContactDaoImpl;
-import com.example.c195.DAO.CustomerDaoImpl;
-import com.example.c195.DAO.DBConnection;
+import com.example.c195.DAO.*;
 import com.example.c195.model.Appointment;
 import com.example.c195.model.Contact;
 import com.example.c195.model.Customer;
+import com.example.c195.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,6 +42,8 @@ public class AddAppointmentController implements Initializable {
     private ComboBox<Contact> contactChoiceBox;
     @FXML
     private ComboBox<Customer> customerChoiceBox;
+    @FXML
+    private ComboBox<User> userChoiceBox;
     @FXML
     private TextField typeTextField;
     @FXML
@@ -100,9 +100,10 @@ public class AddAppointmentController implements Initializable {
 
         Contact selectedContact = contactChoiceBox.getSelectionModel().getSelectedItem();
         Customer selectedCustomer = customerChoiceBox.getSelectionModel().getSelectedItem();
+        User selectedUser= userChoiceBox.getSelectionModel().getSelectedItem();
         int customerId = selectedCustomer.getCustomerID();
 
-        Appointment newAppointment = new Appointment(selectedCustomer.getCustomerID(), title, description, location, selectedContact.getContactID(), type, startDateTimeUTC.toLocalDateTime(), endDateTimeUTC.toLocalDateTime(), this.userId);
+        Appointment newAppointment = new Appointment(selectedCustomer.getCustomerID(), title, description, location, selectedContact.getContactID(), type, startDateTimeUTC.toLocalDateTime(), endDateTimeUTC.toLocalDateTime(), selectedUser.getUserID());
 
         try {
             if (AppointmentDaoImpl.getCustomerAppointments(connection, customerId, startDateTimeUTC.toLocalDateTime(), endDateTimeUTC.toLocalDateTime())){
@@ -148,15 +149,12 @@ public class AddAppointmentController implements Initializable {
         DayOfWeek dayOfWeek = appointment.getStart().getDayOfWeek();
         boolean isWeekend = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
         ZonedDateTime appointmentStartUTC = appointment.getStart().atZone(ZoneId.of("UTC"));
-        System.out.println(appointmentStartUTC);
         ZonedDateTime appointmentEndUTC = appointment.getEnd().atZone(ZoneId.of("UTC"));
 
         ZonedDateTime appointmentStartEST = appointmentStartUTC.withZoneSameInstant(ZoneId.of("America/New_York"));
-        System.out.println(appointmentStartEST);
         ZonedDateTime appointmentEndEST = appointmentEndUTC.withZoneSameInstant(ZoneId.of("America/New_York"));
 
         LocalTime startTimeEST = appointmentStartEST.toLocalTime();
-        System.out.println(startTimeEST);
         LocalTime endTimeEST = appointmentEndEST.toLocalTime();
 
 
@@ -191,6 +189,22 @@ public class AddAppointmentController implements Initializable {
             customerChoiceBox.setItems(customers);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+      /** This method populates the choice box for all users.
+            * It connects to the database and retrieves the contact table via
+     * getAllCustomers method in the CustomerDao
+     * and sets the items in the choice box to all the contacts currently in the table.
+            */
+
+    private void populateUserChoiceBox () {
+        try {
+            ObservableList<User> users = UserDaoImpl.getAllUsers(connection);
+            userChoiceBox.setItems(users);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     /**
@@ -246,7 +260,7 @@ public class AddAppointmentController implements Initializable {
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-            setUserId(this.userId);
+
             this.resources = resourceBundle;
             try {
                 this.connection = DBConnection.makeConnection();
@@ -256,8 +270,9 @@ public class AddAppointmentController implements Initializable {
 
             try {
                 ObservableList<Customer> customersObservableList = CustomerDaoImpl.getAllCustomers(connection);
-
+                ObservableList<User> usersObservableList = UserDaoImpl.getAllUsers(connection);
                 customerChoiceBox.setItems(customersObservableList);
+                userChoiceBox.setItems(usersObservableList);
                 customerChoiceBox.setCellFactory((comboBox) -> new ListCell<>() {
                     @Override
                     protected void updateItem(Customer customer, boolean empty) {
@@ -289,13 +304,17 @@ public class AddAppointmentController implements Initializable {
                     }
                 });
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            };
+
+
 
         populateAppointmentTimes();
         populateContactChoiceBox();
         populateCustomerChoiceBox();
-
+        populateUserChoiceBox();
     }
 }
