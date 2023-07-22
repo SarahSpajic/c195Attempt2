@@ -1,12 +1,10 @@
 package com.example.c195.controller;
 
-import com.example.c195.DAO.AppointmentDaoImpl;
-import com.example.c195.DAO.ContactDaoImpl;
-import com.example.c195.DAO.CustomerDaoImpl;
-import com.example.c195.DAO.DBConnection;
+import com.example.c195.DAO.*;
 import com.example.c195.model.Appointment;
 import com.example.c195.model.Contact;
 import com.example.c195.model.Customer;
+import com.example.c195.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,6 +42,8 @@ public class UpdateAppointmentController implements Initializable {
     private ComboBox<Contact> contactChoiceBox;
     @FXML
     private ComboBox<Customer> customerChoiceBox;
+    @FXML
+    private ComboBox<User> userChoiceBox;
     @FXML
     private TextField typeTextField;
     @FXML
@@ -137,6 +137,12 @@ public class UpdateAppointmentController implements Initializable {
                 break;
             }
         }
+        for (User user : userChoiceBox.getItems()) {
+            if (user.getUserID() == appointment.getUserId()) {
+                userChoiceBox.setValue(user);
+                break;
+            }
+        }
 
     }
     /**
@@ -157,6 +163,7 @@ public class UpdateAppointmentController implements Initializable {
         int customerId = selectedAppointment.getCustomerId();
         int appointmentId = selectedAppointment.getAppointmentId();
         appointmentIdField.setText(String.valueOf(appointmentId));
+        int userId = selectedAppointment.getUserId();
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
@@ -195,7 +202,7 @@ public class UpdateAppointmentController implements Initializable {
                 throw new RuntimeException("Invalid table selection");
         }
 
-        Appointment updatedAppointment = new Appointment(customerId, appointmentId, title, description, location, contactId, type, startUtc.toLocalDateTime(), endUtc.toLocalDateTime(), this.userId);
+        Appointment updatedAppointment = new Appointment(customerId, userId, appointmentId, title, description, location, contactId, type, startUtc.toLocalDateTime(), endUtc.toLocalDateTime(), this.userId);
 
         if (appointmentDao == null) {
             appointmentDao = new AppointmentDaoImpl();
@@ -289,7 +296,8 @@ public class UpdateAppointmentController implements Initializable {
 
         try {
             ObservableList<Customer> customersObservableList = customerDao.getAllCustomers(connection);
-
+            ObservableList<User> usersObservableList = UserDaoImpl.getAllUsers(connection);
+            userChoiceBox.setItems(usersObservableList);
             customerChoiceBox.setItems(customersObservableList);
             customerChoiceBox.setCellFactory((comboBox) -> new ListCell<Customer>() {
                 @Override
@@ -323,6 +331,8 @@ public class UpdateAppointmentController implements Initializable {
             });
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         populateAppointmentTimes();

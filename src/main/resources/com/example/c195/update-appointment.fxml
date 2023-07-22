@@ -42,26 +42,28 @@
                </rowConstraints>
                <children>
                   <Label text="Title" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label prefHeight="17.0" prefWidth="70.0" text="Contact ID" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Label prefHeight="17.0" prefWidth="70.0" text="Contact ID" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                   <TextField fx:id="appointmentIdField" disable="true" editable="false" prefHeight="26.0" prefWidth="152.0" text="Disabled" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <TextField fx:id="titleTextField" text="Title" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <TextField fx:id="descriptionTextField" text="Description" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <TextField fx:id="locationTextField" text="Location" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                   <TextField fx:id="typeTextField" text="Type" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                  <ComboBox fx:id="contactChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                  <Label prefHeight="17.0" prefWidth="84.0" text="Customer  ID" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                  <ComboBox fx:id="customerChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                  <ComboBox fx:id="userChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="contactChoiceBox" prefHeight="28.0" prefWidth="122.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
                   <Label prefHeight="17.0" prefWidth="116.0" text="Appointment ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label prefHeight="17.0" prefWidth="70.0" text="User ID" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                </children>
 
             </GridPane>
          </children>
       </AnchorPane>
-      <Button layoutX="157.0" layoutY="421.0" mnemonicParsing="false" onAction="#updateAppointmentAction" prefHeight="53.0" prefWidth="206.0" text="Update Appointment" />
-      <Button layoutX="157.0" layoutY="621.0" mnemonicParsing="false"  onAction="#exit" prefHeight="53.0" prefWidth="206.0" text="Return to Dashboard" />
+      <Button layoutX="157.0" layoutY="521.0" mnemonicParsing="false" onAction="#updateAppointmentAction" prefHeight="53.0" prefWidth="206.0" text="Update Appointment" />
+      <Button layoutX="157.0" layoutY="621.0" mnemonicParsing="false" onAction="#exit" prefHeight="53.0" prefWidth="206.0" text="Return to Dashboard" />
       <DatePicker fx:id="addAppointmentStartDate" layoutX="64.0" layoutY="45.0" />
-      <ComboBox fx:id="addAppointmentStartTime" layoutX="132.0" layoutY="78.0"/>
+      <ComboBox fx:id="addAppointmentStartTime" layoutX="132.0" layoutY="78.0" />
       <DatePicker fx:id="addAppointmentEndDate" layoutX="276.0" layoutY="45.0" />
-      <ComboBox fx:id="addAppointmentEndTime" layoutX="344.0" layoutY="78.0"  />
+      <ComboBox fx:id="addAppointmentEndTime" layoutX="344.0" layoutY="78.0" />
+      <Label layoutX="140.0" layoutY="422.0" prefHeight="17.0" prefWidth="84.0" text="Customer  ID" />
+      <ComboBox fx:id="customerChoiceBox" layoutX="224.0" layoutY="417.0" prefHeight="28.0" prefWidth="122.0" />
    </children>
 </AnchorPane>

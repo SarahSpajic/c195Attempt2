@@ -84,6 +84,9 @@ public class Appointment {
     public Appointment(int customerId) {
     }
 
+    public Appointment(int customerId, int userId, int appointmentId, String title, String description, String location, int contactId, String type, LocalDateTime toLocalDateTime, LocalDateTime toLocalDateTime1, int userId1) {
+    }
+
 
     public int getContactId() {
         return contactId;

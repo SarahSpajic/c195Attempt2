@@ -76,7 +76,6 @@ public class CustomerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         try {
             this.connection = DBConnection.makeConnection();
         } catch (Exception e) {
@@ -167,6 +166,7 @@ public class CustomerController implements Initializable {
         this.selectedCustomer = customer;
 
         nameField.setText(customer.getName());
+        customerIdField.setText(String.valueOf(customer.getCustomerID()));
         addressField.setText(customer.getAddress());
         phoneNumberField.setText(customer.getPhoneNumber());
         postalCodeField.setText(customer.getPostalCode());
@@ -210,7 +210,7 @@ public class CustomerController implements Initializable {
             return;
         }
 
-        Customer updatedCustomer = new Customer(selectedCustomer.getCustomerID(), name, address, postalCode, phoneNumber, selectedDivision.getDivisionID());
+        Customer updatedCustomer = new Customer(customerId, name, address, postalCode, phoneNumber, selectedDivision.getDivisionID());
         updatedCustomer.setCountryID(selectedCountry.getId());
 
         try {
